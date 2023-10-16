@@ -13,7 +13,7 @@ export class AppinitService {
     this.http.get("../assets/config.json").subscribe(
       (config)=>{
         this.config = config;
-        console.log(this.config);
+        //console.log(this.config);
         
       }
     );
