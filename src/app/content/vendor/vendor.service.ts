@@ -2,28 +2,28 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppinitService } from 'src/app/misc/appinit.service';
-import { User } from '../user/user.class';
+import { Vendor } from './vendor.class';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VendorService {
-  get url() {return `${this.init.config.baseurl}/api/users`}
+  get url() {return `${this.init.config.baseurl}/api/vendors`}
   constructor(
     private init: AppinitService,
     private http: HttpClient
   ) { }
-  list(): Observable<User[]>{
-    return this.http.get(`${this.url}`) as Observable<User[]>;
+  list(): Observable<Vendor[]>{
+    return this.http.get(`${this.url}`) as Observable<Vendor[]>;
   }
-  get(id:number): Observable<User>{
-    return this.http.get(`${this.url}/${id}`) as Observable<User>;
+  get(id:number): Observable<Vendor>{
+    return this.http.get(`${this.url}/${id}`) as Observable<Vendor>;
   }
-  create(X:User):Observable<User>{
-    return this.http.post(`${this.url}`, X) as Observable<User>;
+  create(X:Vendor):Observable<Vendor>{
+    return this.http.post(`${this.url}`, X) as Observable<Vendor>;
   }
-  change(X:User):Observable<any>{
-    return this.http.put(`${this.url}/${X.id}`, X) as Observable<User>;
+  change(X:Vendor):Observable<any>{
+    return this.http.put(`${this.url}/${X.id}`, X) as Observable<Vendor>;
   }
   remove(id:number): Observable<any>{
     return this.http.delete(`${this.url}/${id}`) as Observable<any>;

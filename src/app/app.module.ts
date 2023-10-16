@@ -12,6 +12,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './menu/menu/menu.component';
 import { VendorlistComponent } from './content/vendor/vendorlist/vendorlist.component';
 import { SortPipe } from './misc/sort.pipe';
+import { SearchVendorPipe } from './content/vendor/search-vendor.pipe';
 
 export const startupSVC = (appinit:AppinitService) =>{
   return () => appinit.getSettings();
@@ -25,7 +26,8 @@ export const startupSVC = (appinit:AppinitService) =>{
     HomeComponent,
     MenuComponent,
     VendorlistComponent,
-    SortPipe
+    SortPipe,
+    SearchVendorPipe
   ],
   imports: [
     BrowserModule,

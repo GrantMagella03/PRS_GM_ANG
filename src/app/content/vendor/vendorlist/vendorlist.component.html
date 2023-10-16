@@ -1,1 +1,66 @@
-<p>vendorlist works!</p>
+<app-menu></app-menu>
+<div>
+    <a routerLink="add">Create New</a>
+    <span> | </span>
+    <input type="text" [(ngModel)]="searchIN" placeholder="search">
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button (click)="sortOrder('id')" class="btn btn-link HB">ID</button></th>
+            <th><button (click)="sortOrder('code')" class="btn btn-link HB">Code</button></th>
+            <th><button (click)="sortOrder('name')" class="btn btn-link HB">Name</button></th>
+            <th><button (click)="sortOrder('address')" class="btn btn-link HB">Address</button></th>
+            <th><button (click)="sortOrder('city')" class="btn btn-link HB">City</button></th>
+            <th><button (click)="sortOrder('state')" class="btn btn-link HB">State</button></th>
+            <th><button (click)="sortOrder('zip')" class="btn btn-link HB">Zip</button></th>
+            <th><button (click)="sortOrder('phone')" class="btn btn-link HB">Phone</button></th>
+            <th><button (click)="sortOrder('email')" class="btn btn-link HB">Email</button></th>
+            <th class = "btn HB">Actions</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of Xs | searchVendor:searchIN | sort:columnIN:ascIN">
+                <td>{{x.id}}</td>
+                <td>{{x.code}}</td>
+                <td>{{x.name}}</td>
+                <td>{{x.address}}</td>
+                <td>{{x.city}}</td>
+                <td>{{x.state}}</td>
+                <td>{{x.zip}}</td>
+                <td>{{x.phone}}</td>
+                <td>{{x.email}}</td>
+                <td>
+                    <a routerLink="details/{{x.id}}">Details</a>
+                    <span> | </span>
+                    <a routerLink="edit/{{x.id}}">Edit</a>
+                </td>
+            </tr>
+            <tr [hidden]="emptyRowHidden">
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td> 
+                    <a (click)="createclick()" class="btn-link pointer">Create New</a>
+                </td>
+            </tr>
+            <tr [hidden]="editRowHidden">
+                <td><input type="text" value=0 disabled [(ngModel)]="X.id"></td>
+                <td><input type="text" [(ngModel)]="X.code"></td>
+                <td><input type="text" [(ngModel)]="X.name"></td>
+                <td><input type="text" [(ngModel)]="X.address"></td>
+                <td><input type="text" [(ngModel)]="X.city"></td>
+                <td><input type="text" [(ngModel)]="X.state"></td>
+                <td><input type="text" [(ngModel)]="X.zip"></td>
+                <td><input type="text" [(ngModel)]="X.phone"></td>
+                <td><input style="width:20ch" type="text" [(ngModel)]="X.email"></td>
+                <td> 
+                    <a (click)="saveclick()" class="btn-link pointer">Save</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
