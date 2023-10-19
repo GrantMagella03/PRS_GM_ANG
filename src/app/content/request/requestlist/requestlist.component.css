@@ -1,0 +1,18 @@
+.HB{
+    font-weight:bold;
+    text-decoration:none;
+    align-items: center;
+}
+.pointer{
+    cursor: pointer;
+}
+input{
+    width: 10ch;
+    margin:0;
+    padding:0;
+}
+.SB{
+    position: relative;
+    left: 89%;
+    bottom:28px;
+}
