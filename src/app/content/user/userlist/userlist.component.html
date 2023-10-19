@@ -4,44 +4,51 @@
     <table class="table table-sm table-striped">
         <thead>
             <th><button (click)="sortOrder('id')" class="btn btn-link HB">ID</button></th>
-            <th><button (click)="sortOrder('code')" class="btn btn-link HB">Code</button></th>
-            <th><button (click)="sortOrder('name')" class="btn btn-link HB">Name</button></th>
-            <th><button (click)="sortOrder('address')" class="btn btn-link HB">Address</button></th>
-            <th><button (click)="sortOrder('city')" class="btn btn-link HB">City</button></th>
-            <th><button (click)="sortOrder('state')" class="btn btn-link HB">State</button></th>
-            <th><button (click)="sortOrder('zip')" class="btn btn-link HB">Zip</button></th>
+            <th><button (click)="sortOrder('username')" class="btn btn-link HB">Username</button></th>
+            <th><button (click)="sortOrder('firstname')" class="btn btn-link HB">name</button></th>
+
             <th><button (click)="sortOrder('phone')" class="btn btn-link HB">Phone</button></th>
             <th><button (click)="sortOrder('email')" class="btn btn-link HB">Email</button></th>
+            
+            <th style="cursor:default;"><button class="btn btn-link HB">Admin?</button></th>
+            <th style="cursor:default;"><button class="btn btn-link HB">Reviewer?</button></th>
             <th style="cursor:default;" class = "btn HB" [hidden]="!ADMIN">Actions</th>
         </thead>
         <tbody>
             <tr *ngFor="let x of Xs | searchUser:searchIN | sort:columnIN:ascIN">
                 <td *ngIf="editRow!==x">{{x.id}}</td>
-                <td *ngIf="editRow!==x">{{x.code}}</td>
-                <td *ngIf="editRow!==x">{{x.name}}</td>
-                <td *ngIf="editRow!==x">{{x.address}}</td>
-                <td *ngIf="editRow!==x">{{x.city}}</td>
-                <td *ngIf="editRow!==x">{{x.state}}</td>
-                <td *ngIf="editRow!==x">{{x.zip}}</td>
+                <td *ngIf="editRow!==x">{{x.username}}</td>
+                <td *ngIf="editRow!==x">{{x.firstname}} {{x.lastname}}</td>
+
                 <td *ngIf="editRow!==x">{{x.phone}}</td>
                 <td *ngIf="editRow!==x">{{x.email}}</td>
+                
+                <td *ngIf="editRow!==x">{{x.isAdmin? "Yes":"No"}}</td>
+                <td *ngIf="editRow!==x">{{x.isReviewer? "Yes":"No"}}</td>
+
                 <td *ngIf="editRow!==x" [hidden]="!ADMIN">
                     <a hidden routerLink="details/{{x.id}}">Details</a>
-                    <a *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a *ngIf="deleteRow!==x && LOGGED!==x.id" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a *ngIf="deleteRow!==x && LOGGED===x.id"  class="btn-link pointer disabled">Delete</a>
+
                     <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
                     <span> | </span>
-                    <a (click)="editclick(x)" class="btn-link pointer">Edit</a>
+                    <a *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
+                    <a *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
                 </td>
-                <!---->
+                <!-- edit -->
                 <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.code"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.name"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.address"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.city"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.state"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.zip"></td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.username"></td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.firstname"><input type="text" [(ngModel)]="X.lastname"></td>
+
                 <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.phone"></td>
                 <td *ngIf="editRow===x"><input style="width:20ch" type="text" [(ngModel)]="X.email"></td>
+                
+                <td *ngIf="editRow===x && LOGGED!==x.id"><input class="CHKBX" type="checkbox" [(ngModel)]="X.isAdmin"></td>
+                <td *ngIf="editRow===x && LOGGED===x.id"><input class="CHKBX" type="checkbox" [(ngModel)]="X.isAdmin" disabled></td>
+
+                <td *ngIf="editRow===x"><input class="CHKBX" type="checkbox" [(ngModel)]="X.isReviewer"></td>
+
                 <td *ngIf="editRow===x"> 
                     <a (click)="editsaveclick()" class="btn-link pointer">Save</a>
                     <span> | </span>
@@ -56,22 +63,21 @@
                 <td><span>---</span></td>
                 <td><span>---</span></td>
                 <td><span>---</span></td>
-                <td><span>---</span></td>
-                <td><span>---</span></td>
                 <td> 
                     <a (click)="createclick()" class="btn-link pointer">Create New</a>
                 </td>
             </tr>
             <tr [hidden]="createRowHidden || !ADMIN">
                 <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="X.id"></td>
-                <td><input type="text" [(ngModel)]="X.code"></td>
-                <td><input type="text" [(ngModel)]="X.name"></td>
-                <td><input type="text" [(ngModel)]="X.address"></td>
-                <td><input type="text" [(ngModel)]="X.city"></td>
-                <td><input type="text" [(ngModel)]="X.state"></td>
-                <td><input type="text" [(ngModel)]="X.zip"></td>
+                <td><input type="text" [(ngModel)]="X.username" placeholder="username"><input type="password" [(ngModel)]="X.password" placeholder="password"></td>
+                <td><input type="text" [(ngModel)]="X.firstname" placeholder="firstname"><input type="text" [(ngModel)]="X.lastname" placeholder="lastname"></td>
+
                 <td><input type="text" [(ngModel)]="X.phone"></td>
                 <td><input style="width:20ch" type="text" [(ngModel)]="X.email"></td>
+                
+                <td><input class="CHKBX" type="checkbox" [(ngModel)]="X.isAdmin"></td>
+                <td><input class="CHKBX" type="checkbox" [(ngModel)]="X.isReviewer"></td>
+
                 <td> 
                     <a (click)="saveclick()" class="btn-link pointer">Save</a>
                     <span> | </span>

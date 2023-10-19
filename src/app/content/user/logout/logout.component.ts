@@ -14,7 +14,7 @@ export class LogoutComponent {
   ){}
   ngOnInit():void{
     this.SSVC.user=null;
-    this.SSVC.loggedAdmin=false;
+    this.SSVC.loggedAdmin=false;    
     this.router.navigateByUrl("/login")
   }
 }

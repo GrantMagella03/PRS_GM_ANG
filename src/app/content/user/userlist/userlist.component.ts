@@ -10,6 +10,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./userlist.component.css']
 })
 export class UserlistComponent {
+  LOGGED:number=0;
   ADMIN:boolean=false;
   emptyRowHidden:boolean=false;
   createRowHidden:boolean=true;
@@ -41,6 +42,7 @@ export class UserlistComponent {
       }
     });
     this.ADMIN=this.SSVC.loggedAdmin;
+    this.LOGGED=this.SSVC.user.id;
   }
   createclick(){
     this.X=new User();
@@ -51,7 +53,7 @@ export class UserlistComponent {
   saveclick(){
     this.USVC.create(this.X).subscribe({
       next: (res)=>{
-        console.log(res);
+        //console.log(res);
         this.emptyRowHidden=false;
         this.createRowHidden=true;
         this.refresh();
@@ -76,7 +78,7 @@ export class UserlistComponent {
         this.editRow=null;
       },
       error: (err)=>{
-          console.error(err);
+        console.error(err);
       }
     });
   }
@@ -86,7 +88,7 @@ export class UserlistComponent {
         this.Xs=res
       },
       error: (err)=>{
-          console.error(err);
+        console.error(err);
       }
     });
     this.ADMIN=this.SSVC.loggedAdmin;
@@ -104,7 +106,7 @@ export class UserlistComponent {
         this.refresh();
       },
       error: (err)=>{
-          console.error(err);
+        console.error(err);
       }
     });
   }

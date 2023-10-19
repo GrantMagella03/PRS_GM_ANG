@@ -15,9 +15,9 @@ export class MenuComponent {
   menus: Menu[] = [
     new Menu("LOGOUT","/logout"),
     new Menu("HOME", "/home"),
-    new Menu("USERS","/users", true),
     new Menu("VENDORS","/vendors"),
-    new Menu("PRODUCTS","/products")
+    new Menu("PRODUCTS","/products"),
+    new Menu("USERS","/users", true),
 
   ];
   ngOnInit():void{

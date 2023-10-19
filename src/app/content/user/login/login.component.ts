@@ -23,6 +23,8 @@ export class LoginComponent {
         this.SSVC.user=res;
         if(this.SSVC.user.isAdmin===true){
           this.SSVC.loggedAdmin=true;
+        }else{
+          this.SSVC.loggedAdmin=false;
         }
         this.router.navigateByUrl(`/home`)
       },
