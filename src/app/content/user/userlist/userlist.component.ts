@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { Vendor } from '../vendor.class';
-import { VendorService } from '../vendor.service';
 import { Router } from '@angular/router';
 import { systemService } from 'src/app/misc/system.service';
+import { User } from '../user.class';
+import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-vendorlist',
-  templateUrl: './vendorlist.component.html',
-  styleUrls: ['./vendorlist.component.css']
+  selector: 'app-userlist',
+  templateUrl: './userlist.component.html',
+  styleUrls: ['./userlist.component.css']
 })
-export class VendorlistComponent {
-  LADMIN:boolean=false;
+export class UserlistComponent {
+  ADMIN:boolean=false;
   emptyRowHidden:boolean=false;
   createRowHidden:boolean=true;
   editRow:any=null;
   deleteRow:any=null;
-  Xs!:Vendor[];
-  X:Vendor=new Vendor;
+  Xs!:User[];
+  X:User=new User;
   locale:string = 'en';
   searchIN:string='';
   columnIN:string = 'id';
@@ -27,12 +27,12 @@ export class VendorlistComponent {
     this.ascIN=true;
   }
   constructor(
-    private VSVC: VendorService,
+    private USVC: UserService,
     private SSVC:systemService,
     private router: Router
   ){}
   ngOnInit():void{
-    this.VSVC.list().subscribe({
+    this.USVC.list().subscribe({
       next: (res)=>{
         this.Xs=res
       },
@@ -40,16 +40,16 @@ export class VendorlistComponent {
           console.error(err);
       }
     });
-    this.LADMIN=this.SSVC.loggedAdmin;
+    this.ADMIN=this.SSVC.loggedAdmin;
   }
   createclick(){
-    this.X=new Vendor();
+    this.X=new User();
     this.emptyRowHidden=true;
     this.createRowHidden=false;
     this.editRow=null;
   }
   saveclick(){
-    this.VSVC.create(this.X).subscribe({
+    this.USVC.create(this.X).subscribe({
       next: (res)=>{
         console.log(res);
         this.emptyRowHidden=false;
@@ -71,7 +71,7 @@ export class VendorlistComponent {
     this.editRow=eRow;
   }
   editsaveclick(){
-    this.VSVC.change(this.X).subscribe({
+    this.USVC.change(this.X).subscribe({
       next: (res)=>{
         this.editRow=null;
       },
@@ -81,7 +81,7 @@ export class VendorlistComponent {
     });
   }
   refresh(){
-    this.VSVC.list().subscribe({
+    this.USVC.list().subscribe({
       next: (res)=>{
         this.Xs=res
       },
@@ -89,7 +89,7 @@ export class VendorlistComponent {
           console.error(err);
       }
     });
-    this.LADMIN=this.SSVC.loggedAdmin;
+    this.ADMIN=this.SSVC.loggedAdmin;
   }
   deleteclick(delRow:any=null){
     this.deleteRow=delRow;
@@ -98,7 +98,7 @@ export class VendorlistComponent {
     this.editRow=null;
   }
   confirmdeleteclick(){
-    this.VSVC.remove(this.deleteRow.id).subscribe({
+    this.USVC.remove(this.deleteRow.id).subscribe({
       next: (res)=>{
         this.deleteRow=null;
         this.refresh();

@@ -11,6 +11,7 @@ import { User } from '../content/user/user.class';
 export class systemService {
   get url() {return `${this.init.config.baseurl}/api/users`}
   user:any;
+  loggedAdmin:boolean=false;
   constructor(
     private init: AppinitService,
     private http:HttpClient,
@@ -25,6 +26,7 @@ export class systemService {
     if(this.user==null||this.user==undefined){
       console.log("invalid");
       this.router.navigateByUrl(`/login`)
+      this.loggedAdmin=false;
     }
   }
 }

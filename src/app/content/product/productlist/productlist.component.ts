@@ -1,22 +1,25 @@
 import { Component } from '@angular/core';
-import { Vendor } from '../vendor.class';
-import { VendorService } from '../vendor.service';
 import { Router } from '@angular/router';
 import { systemService } from 'src/app/misc/system.service';
+import { Product } from '../product.class';
+import { ProductService } from '../product.service';
+import { VendorService } from '../../vendor/vendor.service';
+import { Vendor } from '../../vendor/vendor.class';
 
 @Component({
-  selector: 'app-vendorlist',
-  templateUrl: './vendorlist.component.html',
-  styleUrls: ['./vendorlist.component.css']
+  selector: 'app-productlist',
+  templateUrl: './productlist.component.html',
+  styleUrls: ['./productlist.component.css']
 })
-export class VendorlistComponent {
-  LADMIN:boolean=false;
+export class ProductlistComponent {
+  ADMIN:boolean=false;
   emptyRowHidden:boolean=false;
   createRowHidden:boolean=true;
   editRow:any=null;
   deleteRow:any=null;
-  Xs!:Vendor[];
-  X:Vendor=new Vendor;
+  Xs!:Product[];
+  X:Product=new Product;
+  Ys!:Vendor[];
   locale:string = 'en';
   searchIN:string='';
   columnIN:string = 'id';
@@ -27,12 +30,14 @@ export class VendorlistComponent {
     this.ascIN=true;
   }
   constructor(
+    private PSVC: ProductService,
     private VSVC: VendorService,
     private SSVC:systemService,
     private router: Router
   ){}
   ngOnInit():void{
-    this.VSVC.list().subscribe({
+    this.ADMIN=this.SSVC.loggedAdmin;
+    this.PSVC.list().subscribe({
       next: (res)=>{
         this.Xs=res
       },
@@ -40,16 +45,26 @@ export class VendorlistComponent {
           console.error(err);
       }
     });
-    this.LADMIN=this.SSVC.loggedAdmin;
+    this.VSVC.list().subscribe({
+      next: (res)=>{
+        this.Ys=res
+      },
+      error: (err)=>{
+          console.error(err);
+      }
+    });
   }
+
+  //SAVE
   createclick(){
-    this.X=new Vendor();
+    this.X=new Product();
+    this.X.unit="Each"
     this.emptyRowHidden=true;
     this.createRowHidden=false;
     this.editRow=null;
   }
   saveclick(){
-    this.VSVC.create(this.X).subscribe({
+    this.PSVC.create(this.X).subscribe({
       next: (res)=>{
         console.log(res);
         this.emptyRowHidden=false;
@@ -64,6 +79,9 @@ export class VendorlistComponent {
     });
     
   }
+
+
+  //EDIT
   editclick(eRow:any=null){
     this.X=eRow;
     this.emptyRowHidden=false;
@@ -71,17 +89,20 @@ export class VendorlistComponent {
     this.editRow=eRow;
   }
   editsaveclick(){
-    this.VSVC.change(this.X).subscribe({
+    this.PSVC.change(this.X).subscribe({
       next: (res)=>{
         this.editRow=null;
+        this.refresh();
       },
       error: (err)=>{
           console.error(err);
       }
     });
   }
+
+
   refresh(){
-    this.VSVC.list().subscribe({
+    this.PSVC.list().subscribe({
       next: (res)=>{
         this.Xs=res
       },
@@ -89,8 +110,11 @@ export class VendorlistComponent {
           console.error(err);
       }
     });
-    this.LADMIN=this.SSVC.loggedAdmin;
+    this.ADMIN=this.SSVC.loggedAdmin;
   }
+
+
+  //DELETE
   deleteclick(delRow:any=null){
     this.deleteRow=delRow;
     this.emptyRowHidden=false;
@@ -98,7 +122,7 @@ export class VendorlistComponent {
     this.editRow=null;
   }
   confirmdeleteclick(){
-    this.VSVC.remove(this.deleteRow.id).subscribe({
+    this.PSVC.remove(this.deleteRow.id).subscribe({
       next: (res)=>{
         this.deleteRow=null;
         this.refresh();
@@ -108,6 +132,8 @@ export class VendorlistComponent {
       }
     });
   }
+
+  //EXTRA
   cancelclick(){
     this.deleteRow=null;
     this.emptyRowHidden=false;

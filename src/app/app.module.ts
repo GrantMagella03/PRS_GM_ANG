@@ -13,6 +13,11 @@ import { MenuComponent } from './menu/menu/menu.component';
 import { VendorlistComponent } from './content/vendor/vendorlist/vendorlist.component';
 import { SortPipe } from './misc/sort.pipe';
 import { SearchVendorPipe } from './content/vendor/search-vendor.pipe';
+import { LogoutComponent } from './content/user/logout/logout.component';
+import { ProductlistComponent } from './content/product/productlist/productlist.component';
+import { SearchProductPipe } from './content/product/search-product.pipe';
+import { UserlistComponent } from './content/user/userlist/userlist.component';
+import { SearchUserPipe } from './content/user/search-user.pipe';
 
 export const startupSVC = (appinit:AppinitService) =>{
   return () => appinit.getSettings();
@@ -27,7 +32,12 @@ export const startupSVC = (appinit:AppinitService) =>{
     MenuComponent,
     VendorlistComponent,
     SortPipe,
-    SearchVendorPipe
+    SearchVendorPipe,
+    LogoutComponent,
+    ProductlistComponent,
+    SearchProductPipe,
+    UserlistComponent,
+    SearchUserPipe,
   ],
   imports: [
     BrowserModule,

@@ -8,14 +8,20 @@ import { Menu } from '../menu.class';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
+  ADMIN:boolean=false;
   constructor(
     private SSVC: systemService,
   ){}
   menus: Menu[] = [
+    new Menu("LOGOUT","/logout"),
     new Menu("HOME", "/home"),
-    new Menu("VENDORS","/vendors")
+    new Menu("USERS","/users", true),
+    new Menu("VENDORS","/vendors"),
+    new Menu("PRODUCTS","/products")
+
   ];
   ngOnInit():void{
     this.SSVC.logcheck();
+    this.ADMIN=this.SSVC.loggedAdmin;
   }
 }

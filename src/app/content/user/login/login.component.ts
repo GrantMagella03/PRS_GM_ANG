@@ -21,6 +21,9 @@ export class LoginComponent {
       this.SSVC.login(this.un,this.pw).subscribe({
       next: (res)=>{
         this.SSVC.user=res;
+        if(this.SSVC.user.isAdmin===true){
+          this.SSVC.loggedAdmin=true;
+        }
         this.router.navigateByUrl(`/home`)
       },
       error: (err)=>{

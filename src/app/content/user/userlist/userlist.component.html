@@ -12,10 +12,10 @@
             <th><button (click)="sortOrder('zip')" class="btn btn-link HB">Zip</button></th>
             <th><button (click)="sortOrder('phone')" class="btn btn-link HB">Phone</button></th>
             <th><button (click)="sortOrder('email')" class="btn btn-link HB">Email</button></th>
-            <th style="cursor:default;" class = "btn HB" [hidden]="!LADMIN">Actions</th>
+            <th style="cursor:default;" class = "btn HB" [hidden]="!ADMIN">Actions</th>
         </thead>
         <tbody>
-            <tr *ngFor="let x of Xs | searchVendor:searchIN | sort:columnIN:ascIN">
+            <tr *ngFor="let x of Xs | searchUser:searchIN | sort:columnIN:ascIN">
                 <td *ngIf="editRow!==x">{{x.id}}</td>
                 <td *ngIf="editRow!==x">{{x.code}}</td>
                 <td *ngIf="editRow!==x">{{x.name}}</td>
@@ -25,7 +25,7 @@
                 <td *ngIf="editRow!==x">{{x.zip}}</td>
                 <td *ngIf="editRow!==x">{{x.phone}}</td>
                 <td *ngIf="editRow!==x">{{x.email}}</td>
-                <td *ngIf="editRow!==x" [hidden]="!LADMIN">
+                <td *ngIf="editRow!==x" [hidden]="!ADMIN">
                     <a hidden routerLink="details/{{x.id}}">Details</a>
                     <a *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
                     <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
@@ -48,7 +48,7 @@
                     <a (click)="cancelclick()" class="btn-link pointer">Cancel</a>
                 </td>
             </tr>
-            <tr [hidden]="emptyRowHidden || !LADMIN">
+            <tr [hidden]="emptyRowHidden || !ADMIN">
                 <td><span>---</span></td>
                 <td><span>---</span></td>
                 <td><span>---</span></td>
@@ -62,7 +62,7 @@
                     <a (click)="createclick()" class="btn-link pointer">Create New</a>
                 </td>
             </tr>
-            <tr [hidden]="createRowHidden || !LADMIN">
+            <tr [hidden]="createRowHidden || !ADMIN">
                 <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="X.id"></td>
                 <td><input type="text" [(ngModel)]="X.code"></td>
                 <td><input type="text" [(ngModel)]="X.name"></td>
