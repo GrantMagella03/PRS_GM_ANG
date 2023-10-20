@@ -1,1 +1,116 @@
-<p>add-request works!</p>
+<app-menu></app-menu>
+<div>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default;" class="btn HB">ID</button></th>
+            <th><button style="cursor:default;" class="btn HB">Description</button></th>
+            <th><button style="cursor:default;" class="btn HB">Justification</button></th>
+            <th><button style="cursor:default;" class="btn HB">Rejection Reason</button></th>
+            <th><button style="cursor:default;" class="btn HB">Delivery Mode</button></th>
+            <th><button style="cursor:default;" class="btn HB">Status</button></th>
+            <th><button style="cursor:default;" class="btn HB">Total</button></th>
+            
+            <th><button style="cursor:default;" class="btn HB">User</button></th>
+            
+            <th [hidden]="firstcreateRowHidden" style="cursor:default;" class = "btn HB">Actions</th>
+        </thead>
+        <tbody>
+            <tr [hidden]="firstcreateRowHidden">
+                <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="X.id"></td>
+                <td><input type="text" [(ngModel)]="Z.description"></td>
+                <td><input type="text" [(ngModel)]="Z.justification"></td>
+                <td><input type="text" [(ngModel)]="Z.rejectionReason" disabled></td>
+                <td><input type="text" [(ngModel)]="Z.deliveryMode"></td>
+                <td><input type="text" [(ngModel)]="Z.status" disabled></td>
+                <td><input type="text" [(ngModel)]="Z.total" disabled></td>
+                
+                <td><input type="text" value="{{loggedUsername}}" disabled></td>
+                
+                
+                <td> 
+                    <a (click)="SaveRequestClick()" class="btn-link pointer">Save</a>
+                </td>
+            </tr>
+        
+            <tr *ngIf="firstcreateRowHidden">
+                <td>{{Z.id}}</td>
+                <td>{{Z.description}}</td>
+                <td>{{Z.justification}}</td>
+                <td>{{Z.rejectionReason}}</td>
+                <td>{{Z.deliveryMode}}</td>
+                <td>{{Z.status}}</td>
+                <td>{{Z.total}}</td>
+                <td *ngIf="Z.user!==null">{{Z.user!.username}}</td>
+                <td *ngIf="Z.user===null">---</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="firstcreateRowHidden">
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default;" class="btn HB">ID</button></th>
+            <th><button style="cursor:default;" class="btn HB">Product</button></th>
+            <th><button style="cursor:default;" class="btn HB">Quantity</button></th>
+
+            <th style="cursor:default;" class = "btn HB">Actions</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of Z.requestLines">
+                <td *ngIf="editRow!==x">{{x.id}}</td>
+                <td *ngIf="editRow!==x">{{x.product!.name}}</td>
+                <td *ngIf="editRow!==x">{{x.quantity}}</td>
+
+
+                <td *ngIf="editRow!==x">
+                    <a *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
+                    <span> | </span>
+                    <a *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
+                    <a *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+                <!-- editing -->
+                <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>
+                <td *ngIf="editRow===x">
+                    <select [(ngModel)]="X.productID">
+                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
+                    </select>
+                </td>
+                <td *ngIf="editRow===x"><input type="number" [(ngModel)]="X.quantity"></td>
+
+                <td *ngIf="editRow===x"> 
+                    <a (click)="editsaveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+            <tr [hidden]="emptyRowHidden">
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td> 
+                    <a (click)="createclick()" class="btn-link pointer">Create New</a>
+                </td>
+            </tr>
+            <tr [hidden]="createRowHidden">
+                <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="X.id"></td>
+                <td>
+                    <select [(ngModel)]="X.productID">
+                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
+                    </select>
+                </td>
+                <td><input type="number" [(ngModel)]="X.quantity"></td>
+                
+
+                <td> 
+                    <a (click)="saveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <button [hidden]="!firstcreateRowHidden" routerLink="/requests" class="btn btn-primary">Finish</button>
+</div>
