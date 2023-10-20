@@ -1,0 +1,122 @@
+<app-menu></app-menu>
+<div>
+    <a routerLink="/requests" class="btn-link pointer" >Back to list</a>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default;" class="btn HB">ID</button></th>
+            <th><button style="cursor:default;" class="btn HB">Description</button></th>
+            <th><button style="cursor:default;" class="btn HB">Justification</button></th>
+            <th><button style="cursor:default;" class="btn HB">Rejection Reason</button></th>
+            <th><button style="cursor:default;" class="btn HB">Delivery Mode</button></th>
+            <th><button style="cursor:default;" class="btn HB">Status</button></th>
+            <th><button style="cursor:default;" class="btn HB">Total</button></th>
+            
+            <th><button style="cursor:default;" class="btn HB">User</button></th>
+            
+            <th *ngIf="REVIEWER" style="cursor:default;" class = "btn HB">Actions</th>
+        </thead>
+        <tbody>
+        <tr *ngIf="Z && Z.user">
+            <td>{{Z.id}}</td>
+            <td>{{Z.description}}</td>
+            <td>{{Z.justification}}</td>
+            <td *ngIf="!rejecting">{{Z.rejectionReason}}</td>
+            <td *ngIf="rejecting"><input type="text" [(ngModel)]="Z.rejectionReason"></td>
+            <td>{{Z.deliveryMode}}</td>
+            <td>{{Z.status}}</td>
+            <td>{{Z.total}}</td>
+
+            <td *ngIf="Z.user!==null">{{Z.user!.username}}</td>
+            <td *ngIf="Z.user===null">---</td>
+            <!--ACTIONS TAB-->
+            <td *ngIf="REVIEWER && Z.user!.username!==loggedUsername">
+                <a *ngIf="!rejecting" (click)="REVIEWclick()" class="btn-link pointer">Review</a>
+                <span *ngIf="!rejecting"> | </span>
+                <a *ngIf="!rejecting" (click)="APPROVEclick()" class="btn-link pointer">Approve</a>
+                <span *ngIf="!rejecting" > | </span>
+                <a *ngIf="!rejecting" (click)="REJECTclick()" class="btn-link pointer">Reject</a>
+                <!--while rejecting-->
+                <a *ngIf="rejecting" (click)="ConfirmREJECTclick()" class="btn-link pointer">Confirm Reject</a>
+                <span *ngIf="rejecting"> | </span>
+                <a *ngIf="rejecting" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+            </td>
+            <!--INVALID PERMS-->
+            <td *ngIf="Z.user!.username===loggedUsername" [hidden]="!REVIEWER">
+                <a *ngIf="!rejecting" class="btn-link pointer disabled">Review</a>
+                <span *ngIf="!rejecting"> | </span>
+                <a *ngIf="!rejecting" class="btn-link pointer disabled">Approve</a>
+                <span *ngIf="!rejecting" > | </span>
+                <a *ngIf="!rejecting" class="btn-link pointer disabled">Reject</a>
+                <!--while rejecting-->
+                <a *ngIf="rejecting" class="btn-link pointer disabled">Confirm Reject</a>
+                <span *ngIf="rejecting"> | </span>
+                <a *ngIf="rejecting" class="btn-link pointer disabled">Cancel</a>
+            </td>
+        </tbody>
+    </table>
+</div>
+<div>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default;" class="btn HB">ID</button></th>
+            <th><button style="cursor:default;" class="btn HB">Product</button></th>
+            <th><button style="cursor:default;" class="btn HB">Quantity</button></th>
+
+            <th style="cursor:default;" class = "btn HB" [hidden]="!ADMIN">Actions</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of Z.requestLines">
+                <td *ngIf="editRow!==x">{{x.id}}</td>
+                <td *ngIf="editRow!==x">{{x.product!.name}}</td>
+                <td *ngIf="editRow!==x">{{x.quantity}}</td>
+
+
+                <td *ngIf="editRow!==x">
+                    <a *ngIf="deleteRow!==x && ADMIN" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a *ngIf="deleteRow===x && ADMIN" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
+                    <span [hidden]="!ADMIN"> | </span>
+                    <a *ngIf="deleteRow!==x && ADMIN" (click)="editclick(x)" class="btn-link pointer">Edit</a>
+                    <a *ngIf="deleteRow===x && ADMIN" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+                <!-- editing -->
+                <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>
+                <td *ngIf="editRow===x">
+                    <select [(ngModel)]="X.productID">
+                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
+                    </select>
+                </td>
+                <td *ngIf="editRow===x"><input type="number" [(ngModel)]="X.quantity"></td>
+
+                <td *ngIf="editRow===x"> 
+                    <a (click)="editsaveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+            <tr [hidden]="emptyRowHidden || !ADMIN">
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td> 
+                    <a (click)="createclick()" class="btn-link pointer">Create New</a>
+                </td>
+            </tr>
+            <tr [hidden]="createRowHidden || !ADMIN">
+                <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="X.id"></td>
+                <td>
+                    <select [(ngModel)]="X.productID">
+                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
+                    </select>
+                </td>
+                <td><input type="number" [(ngModel)]="X.quantity"></td>
+                
+
+                <td> 
+                    <a (click)="saveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

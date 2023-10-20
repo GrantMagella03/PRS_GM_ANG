@@ -31,7 +31,7 @@
                     <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
                     <span> | </span>
                     <a *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
-                    <a *ngIf="deleteRow!==x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                    <a *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
                 </td>
                 <!---->
                 <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>

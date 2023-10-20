@@ -26,6 +26,11 @@ export class LoginComponent {
         }else{
           this.SSVC.loggedAdmin=false;
         }
+        if(this.SSVC.user.isReviewer===true){
+          this.SSVC.REVIEWER=true;
+        }else{
+          this.SSVC.REVIEWER=false;
+        }
         this.router.navigateByUrl(`/home`)
       },
       error: (err)=>{

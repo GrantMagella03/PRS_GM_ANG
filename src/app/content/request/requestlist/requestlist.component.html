@@ -1,6 +1,9 @@
 <app-menu></app-menu>
 <div>
     <input class="SB" type="text" [(ngModel)]="searchIN" placeholder="search">
+    <div>
+        <a routerLink="add" class="btn btn-primary pointer">New Request</a>
+    </div>
     <table class="table table-sm table-striped">
         <thead>
             <th><button (click)="sortOrder('id')" class="btn btn-link HB">ID</button></th>
@@ -13,35 +16,40 @@
 
             <th><button style="cursor:default;" class="btn HB">User</button></th>
 
-            <th style="cursor:default;" class = "btn HB" [hidden]="!ADMIN">Actions</th>
+            <th style="cursor:default;" class = "btn HB">Actions</th>
         </thead>
         <tbody>
             <tr *ngFor="let x of Xs | searchrequest:searchIN | sort:columnIN:ascIN">
                 <td *ngIf="editRow!==x">{{x.id}}</td>
-                <td *ngIf="editRow!==x">{{x.partNbr}}</td>
-                <td *ngIf="editRow!==x">{{x.name}}</td>
-                <td *ngIf="editRow!==x">{{x.price | currency}} {{x.unit}}</td>
-                <td *ngIf="editRow!==x">{{x.photoPath}}</td>
-                <td *ngIf="editRow!==x">{{x.vendor.name}}</td>
-                <td *ngIf="editRow!==x" [hidden]="!ADMIN">
-                    <a hidden routerLink="details/{{x.id}}">Details</a>
-                    <a *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
-                    <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
-                    <span> | </span>
-                    <a *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
-                    <a *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                <td *ngIf="editRow!==x">{{x.description}}</td>
+                <td *ngIf="editRow!==x">{{x.justification}}</td>
+                <td *ngIf="editRow!==x">{{x.rejectionReason}}</td>
+                <td *ngIf="editRow!==x">{{x.deliveryMode}}</td>
+                <td *ngIf="editRow!==x">{{x.status}}</td>
+                <td *ngIf="editRow!==x">{{x.total}}</td>
+
+                <td *ngIf="editRow!==x">{{x.user.username}}</td>
+
+                <td *ngIf="editRow!==x">
+                    <a *ngIf="deleteRow!==x && ADMIN" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a *ngIf="deleteRow===x && ADMIN" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
+                    <span [hidden]="!ADMIN"> | </span>
+                    <a *ngIf="deleteRow!==x && ADMIN" (click)="editclick(x)" class="btn-link pointer">Edit</a>
+                    <a *ngIf="deleteRow===x && ADMIN" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                    <span *ngIf="deleteRow!==x && ADMIN"> | </span>
+                    <a *ngIf="deleteRow!==x" routerLink="lines/{{x.id}}" class="btn-link pointer">Details</a>
                 </td>
                 <!-- editing -->
                 <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.partNbr"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.name"></td>
-                <td *ngIf="editRow===x"><input type="number" [(ngModel)]="X.price"><input type="text" [(ngModel)]="X.unit"></td>
-                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.photoPath"></td>
-                <td *ngIf="editRow===x">
-                    <select [(ngModel)]="X.vendorID">
-                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
-                    </select>
-                </td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.description"></td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.justification"></td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.rejectionReason" disabled></td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.deliveryMode"></td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.status" disabled></td>
+                <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.total" disabled></td>
+                
+                <td *ngIf="editRow===x"><input type="text" value="{{X.user!.username}}" disabled></td>
+                
 
                 <td *ngIf="editRow===x"> 
                     <a (click)="editsaveclick()" class="btn-link pointer">Save</a>
@@ -56,22 +64,24 @@
                 <td><span>---</span></td>
                 <td><span>---</span></td>
                 <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
                 <td> 
                     <a (click)="createclick()" class="btn-link pointer">Create New</a>
                 </td>
             </tr>
             <tr [hidden]="createRowHidden || !ADMIN">
                 <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="X.id"></td>
-                <td><input type="text" [(ngModel)]="X.partNbr"></td>
-                <td><input type="text" [(ngModel)]="X.name"></td>
-                <td><input type="number" [(ngModel)]="X.price"> <input type="text" [(ngModel)]="X.unit"></td>
-                <td><input type="text" [(ngModel)]="X.photoPath"></td>
+                <td><input type="text" [(ngModel)]="X.description"></td>
+                <td><input type="text" [(ngModel)]="X.justification"></td>
+                <td><input type="text" [(ngModel)]="X.rejectionReason" disabled></td>
+                <td><input type="text" [(ngModel)]="X.deliveryMode"></td>
+                <td><input type="text" [(ngModel)]="X.status" disabled></td>
+                <td><input type="text" [(ngModel)]="X.total" disabled></td>
+                
+                <td><input type="text" value="{{loggedUsername}}" disabled></td>
+                
 
-                <td>
-                    <select [(ngModel)]="X.vendorID">
-                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
-                    </select>
-                </td>
                 <td> 
                     <a (click)="saveclick()" class="btn-link pointer">Save</a>
                     <span> | </span>

@@ -8,7 +8,7 @@ import { RequestLine } from './requestline.class';
   providedIn: 'root'
 })
 export class RequestLineService {
-  get url() {return `${this.init.config.baseurl}/api/RequestLines`}
+  get url() {return `${this.init.config.baseurl}/api/requestlines`}
   constructor(
     private init: AppinitService,
     private http: HttpClient

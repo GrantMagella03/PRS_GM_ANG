@@ -20,6 +20,8 @@ import { UserlistComponent } from './content/user/userlist/userlist.component';
 import { SearchUserPipe } from './content/user/search-user.pipe';
 import { RequestlistComponent } from './content/request/requestlist/requestlist.component';
 import { SearchrequestPipe } from './content/request/search-request.pipe';
+import { RequestLineListComponent } from './content/request/request-line-list/request-line-list.component';
+import { AddRequestComponent } from './content/request/add-request/add-request.component';
 
 export const startupSVC = (appinit:AppinitService) =>{
   return () => appinit.getSettings();
@@ -42,6 +44,8 @@ export const startupSVC = (appinit:AppinitService) =>{
     SearchUserPipe,
     RequestlistComponent,
     SearchrequestPipe,
+    RequestLineListComponent,
+    AddRequestComponent,
   ],
   imports: [
     BrowserModule,

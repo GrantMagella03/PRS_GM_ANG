@@ -12,6 +12,7 @@ export class systemService {
   get url() {return `${this.init.config.baseurl}/api/users`}
   user:any;
   loggedAdmin:boolean=false;
+  REVIEWER:boolean=false;
   constructor(
     private init: AppinitService,
     private http:HttpClient,
@@ -27,6 +28,7 @@ export class systemService {
       console.log("invalid");
       this.router.navigateByUrl(`/login`)
       this.loggedAdmin=false;
+      this.REVIEWER=false;
     }
   }
 }

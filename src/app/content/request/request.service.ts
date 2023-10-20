@@ -28,4 +28,13 @@ export class requestService {
   remove(id:number): Observable<any>{
     return this.http.delete(`${this.url}/${id}`) as Observable<any>;
   }
+  review(id:number, X:request): Observable<any>{
+    return this.http.put(`${this.url}/review/${id}`,X) as Observable<any>;
+  }
+  approve(id:number, X:request): Observable<any>{
+    return this.http.put(`${this.url}/approve/${id}`,X) as Observable<any>;
+  }
+  reject(id:number, X:request): Observable<any>{
+    return this.http.put(`${this.url}/reject/${id}`,X) as Observable<any>;
+  }
 }

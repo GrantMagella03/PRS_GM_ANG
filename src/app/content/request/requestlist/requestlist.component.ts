@@ -12,13 +12,14 @@ import { User } from '../../user/user.class';
   styleUrls: ['./requestlist.component.css']
 })
 export class RequestlistComponent {
+  loggedUsername:string="";
   ADMIN:boolean=false;
   emptyRowHidden:boolean=false;
   createRowHidden:boolean=true;
   editRow:any=null;
   deleteRow:any=null;
   Xs!:request[];
-  X:request=new request;
+  X:request=new request();
   Ys!:User[];
   locale:string = 'en';
   searchIN:string='';
@@ -36,6 +37,7 @@ export class RequestlistComponent {
     private router: Router
   ){}
   ngOnInit():void{
+    this.loggedUsername=this.SSVC.user.username;
     this.ADMIN=this.SSVC.loggedAdmin;
     this.RSVC.list().subscribe({
       next: (res)=>{
@@ -58,6 +60,9 @@ export class RequestlistComponent {
   //SAVE
   createclick(){
     this.X=new request();
+    this.X.userID=this.SSVC.user.id;
+    this.X.status="NEW";
+    this.X.total=0;
     this.emptyRowHidden=true;
     this.createRowHidden=false;
     this.editRow=null;
