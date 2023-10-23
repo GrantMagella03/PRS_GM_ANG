@@ -11,6 +11,9 @@
             </tr>
         </tbody>
     </table>
+    <div class="center inc" [hidden]="!inc">
+        <span>Incorrect Username or Password</span>
+    </div>
     <div class="center">
         <button class="btn btn-primary" (click)="loginclick()">Login</button>
     </div>

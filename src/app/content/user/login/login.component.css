@@ -5,6 +5,8 @@
 }
 .inc{
     color:red;
+    width: 80%;
+    text-align: center;
     text-decoration: underline;
     font-style: italic;
 }

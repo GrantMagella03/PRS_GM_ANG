@@ -1,6 +1,36 @@
 <app-menu></app-menu>
+<input class="SB" type="text" [(ngModel)]="searchIN" placeholder="search">
 <div>
-    <input class="SB" type="text" [(ngModel)]="searchIN" placeholder="search">
+    <a routerLink="/vendors" class="btn btn-link">Back To List</a>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default" class="btn HB">ID</button></th>
+            <th><button style="cursor:default" class="btn HB">Code</button></th>
+            <th><button style="cursor:default" class="btn HB">Name</button></th>
+            <th><button style="cursor:default" class="btn HB">Address</button></th>
+            <th><button style="cursor:default" class="btn HB">City</button></th>
+            <th><button style="cursor:default" class="btn HB">State</button></th>
+            <th><button style="cursor:default" class="btn HB">Zip</button></th>
+            <th><button style="cursor:default" class="btn HB">Phone</button></th>
+            <th><button style="cursor:default" class="btn HB">Email</button></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{Z.id}}</td>
+                <td>{{Z.code}}</td>
+                <td>{{Z.name}}</td>
+                <td>{{Z.address}}</td>
+                <td>{{Z.city}}</td>
+                <td>{{Z.state}}</td>
+                <td>{{Z.zip}}</td>
+                <td>{{Z.phone}}</td>
+                <td>{{Z.email}}</td>
+        </tbody>
+    </table>
+</div>
+
+<span class="head">Vendor Products:</span>
+<div>
     <table class="table table-sm table-striped">
         <thead>
             <th><button (click)="sortOrder('id')" class="btn btn-link HB">ID</button></th>
@@ -8,8 +38,7 @@
             <th><button (click)="sortOrder('name')" class="btn btn-link HB">Name</button></th>
             <th><button (click)="sortOrder('price')" class="btn btn-link HB">Price</button></th>
             <th><button style="cursor:default;" class="btn HB">Photo Path</button></th>
-            <th><button style="cursor:default;" class="btn HB">Vendor</button></th>
-            <th style="cursor:default;" class = "btn HB">Actions</th>
+            <th style="cursor:default;" class = "btn HB" [hidden]="!ADMIN">Actions</th>
         </thead>
         <tbody>
             <tr *ngFor="let x of Xs | searchProduct:searchIN | sort:columnIN:ascIN">
@@ -18,15 +47,13 @@
                 <td *ngIf="editRow!==x">{{x.name}}</td>
                 <td *ngIf="editRow!==x">{{x.price | currency}} {{x.unit}}</td>
                 <td *ngIf="editRow!==x">{{x.photoPath}}</td>
-                <td *ngIf="editRow!==x">{{x.vendor.name}}</td>
-                <td *ngIf="editRow!==x">
-                    <a [hidden]="!ADMIN" *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
-                    <a [hidden]="!ADMIN" *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
-                    <span [hidden]="!ADMIN"> | </span>
-                    <a [hidden]="!ADMIN" *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
-                    <a [hidden]="!ADMIN" *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
-                    <span [hidden]="!ADMIN"> | </span>
-                    <a routerLink="details/{{x.id}}">Details</a>
+                <td *ngIf="editRow!==x" [hidden]="!ADMIN">
+                    
+                    <a *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
+                    <span> | </span>
+                    <a *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
+                    <a *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
                 </td>
                 <!-- editing -->
                 <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>
@@ -34,11 +61,6 @@
                 <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.name"></td>
                 <td *ngIf="editRow===x"><input type="number" [(ngModel)]="X.price"><input type="text" [(ngModel)]="X.unit"></td>
                 <td *ngIf="editRow===x"><input type="text" [(ngModel)]="X.photoPath"></td>
-                <td *ngIf="editRow===x">
-                    <select [(ngModel)]="X.vendorID">
-                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
-                    </select>
-                </td>
 
                 <td *ngIf="editRow===x"> 
                     <a (click)="editsaveclick()" class="btn-link pointer">Save</a>
@@ -47,7 +69,6 @@
                 </td>
             </tr>
             <tr [hidden]="emptyRowHidden || !ADMIN">
-                <td><span>---</span></td>
                 <td><span>---</span></td>
                 <td><span>---</span></td>
                 <td><span>---</span></td>
@@ -63,12 +84,6 @@
                 <td><input type="text" [(ngModel)]="X.name"></td>
                 <td><input type="number" [(ngModel)]="X.price"> <input type="text" [(ngModel)]="X.unit"></td>
                 <td><input type="text" [(ngModel)]="X.photoPath"></td>
-
-                <td>
-                    <select [(ngModel)]="X.vendorID">
-                        <option *ngFor="let Y of Ys" value={{Y.id}}>{{Y.name}}</option>
-                    </select>
-                </td>
                 <td> 
                     <a (click)="saveclick()" class="btn-link pointer">Save</a>
                     <span> | </span>

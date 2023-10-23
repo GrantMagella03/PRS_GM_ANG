@@ -13,7 +13,7 @@ input{
 }
 .SB{
     position: relative;
-    left: 89%;
+    left: 88.5%;
     bottom:28px;
 }
 .CHKBX{
@@ -24,4 +24,11 @@ input{
     color:rgba(170, 169, 169, 0.797);
     cursor: default;
     text-decoration: none;
+}
+.honeypot{
+    width: 0;
+    height: 0;
+    border: 0;
+    border-color: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0);
 }

@@ -1,5 +1,6 @@
 <app-menu></app-menu>
 <div>
+    <span class="head">Request Information:</span>
     <table class="table table-sm table-striped">
         <thead>
             <th><button style="cursor:default;" class="btn HB">ID</button></th>
@@ -20,7 +21,12 @@
                 <td><input type="text" [(ngModel)]="Z.description"></td>
                 <td><input type="text" [(ngModel)]="Z.justification"></td>
                 <td><input type="text" [(ngModel)]="Z.rejectionReason" disabled></td>
-                <td><input type="text" [(ngModel)]="Z.deliveryMode"></td>
+                <td>
+                    <select [(ngModel)]="Z.deliveryMode">
+                        <option value="Pickup">Pickup</option>
+                        <option value="Delivery">Delivery</option>
+                    </select>
+                </td>
                 <td><input type="text" [(ngModel)]="Z.status" disabled></td>
                 <td><input type="text" [(ngModel)]="Z.total" disabled></td>
                 
@@ -46,7 +52,8 @@
         </tbody>
     </table>
 </div>
-<div *ngIf="firstcreateRowHidden">
+<div>
+    <span class="head">Request Items:</span>
     <table class="table table-sm table-striped">
         <thead>
             <th><button style="cursor:default;" class="btn HB">ID</button></th>
@@ -89,7 +96,8 @@
                 <td><span>---</span></td>
                 <td><span>---</span></td>
                 <td> 
-                    <a (click)="createclick()" class="btn-link pointer">Create New</a>
+                    <a (click)="createclick()" class="btn-link pointer" [hidden]="!firstcreateRowHidden">Add Item</a>
+                    <a class="btn-link pointer disabled" disabled [hidden]="firstcreateRowHidden">Add Item</a>
                 </td>
             </tr>
             <tr [hidden]="createRowHidden">

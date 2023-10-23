@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { systemService } from 'src/app/misc/system.service';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-
+  USERID:number=0;
+  constructor(
+    private SSVC:systemService,
+  ){}
+  ngOnInit(){
+    this.USERID=this.SSVC.user.id
+  }
 }

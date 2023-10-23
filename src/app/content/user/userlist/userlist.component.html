@@ -1,5 +1,9 @@
 <app-menu></app-menu>
 <div>
+    <!-- honeypot because google keeps autofilling searchbar with sensitive data -->
+    <input class="honeypot" type="text" placeholder="username">
+    <input class="honeypot" type="password" placeholder="password">
+    <!-- end honeypot -->
     <input class="SB" type="text" [(ngModel)]="searchIN" placeholder="search">
     <table class="table table-sm table-striped">
         <thead>
@@ -27,14 +31,15 @@
                 <td *ngIf="editRow!==x">{{x.isReviewer? "Yes":"No"}}</td>
 
                 <td *ngIf="editRow!==x" [hidden]="!ADMIN">
-                    <a hidden routerLink="details/{{x.id}}">Details</a>
                     <a *ngIf="deleteRow!==x && LOGGED!==x.id" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
                     <a *ngIf="deleteRow!==x && LOGGED===x.id"  class="btn-link pointer disabled">Delete</a>
-
+                    
                     <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
                     <span> | </span>
                     <a *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
                     <a *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                    <span> | </span>
+                    <a routerLink="details/{{x.id}}">Details</a>
                 </td>
                 <!-- edit -->
                 <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>

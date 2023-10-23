@@ -48,7 +48,6 @@ export class AddRequestComponent {
     this.RSVC.get(this.id).subscribe({
       next: (res)=>{
         this.Z = res;
-        this.refresh();
       },
       error: (err)=>{
         console.error(err);
@@ -62,6 +61,8 @@ export class AddRequestComponent {
         this.Z=res;
         this.id=this.Z.id;
         this.firstcreateRowHidden=true;
+        this.emptyRowHidden=true;
+        this.createRowHidden=false;
         this.refresh();
       },
       error: (err)=>{

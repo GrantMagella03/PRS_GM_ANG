@@ -1,0 +1,174 @@
+<app-menu></app-menu>
+<div>
+    <a routerLink="/users" class="btn btn-link" [hidden]="!ADMIN">Back To List</a>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default" class="btn HB">ID</button></th>
+            <th><button style="cursor:default" class="btn HB">Username</button></th>
+            <th><button style="cursor:default" class="btn HB">Name</button></th>
+            <th><button style="cursor:default" class="btn HB">Phone</button></th>
+            <th><button style="cursor:default" class="btn HB">Email</button></th>
+            <th><button style="cursor:default" class="btn HB">Reviewer?</button></th>
+            <th><button style="cursor:default" class="btn HB">Admin?</button></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{Z.id}}</td>
+                <td>{{Z.username}}</td>
+                <td>{{Z.firstname}} {{Z.lastname}}</td>
+                <td>{{Z.phone}}</td>
+                <td>{{Z.email}}</td>
+                <td>{{Z.isReviewer? "Yes":"No"}}</td>
+                <td>{{Z.isAdmin? "Yes":"No"}}</td>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="fifty">
+    <span class="head">User Requests:</span>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button (click)="RsortOrder('id')" class="btn btn-link HB">ID</button></th>
+            <th><button (click)="RsortOrder('description')" class="btn btn-link HB">Description</button></th>
+            <th><button (click)="RsortOrder('justification')" class="btn btn-link HB">Justification</button></th>
+            <th><button (click)="RsortOrder('rejectionReason')" class="btn btn-link HB">Rejection Reason</button></th>
+            <th><button (click)="RsortOrder('deliveryMode')" class="btn btn-link HB">Delivery Mode</button></th>
+            <th><button (click)="RsortOrder('status')" class="btn btn-link HB">Status</button></th>
+            <th><button (click)="RsortOrder('total')" class="btn btn-link HB">Total</button></th>
+
+            <th style="cursor:default;" class = "btn HB">Actions</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of Xs | searchrequest:RsearchIN | sort:RcolumnIN:RascIN">
+                <td *ngIf="ReditRow!==x">{{x.id}}</td>
+                <td *ngIf="ReditRow!==x">{{x.description}}</td>
+                <td *ngIf="ReditRow!==x">{{x.justification}}</td>
+                <td *ngIf="ReditRow!==x">{{x.rejectionReason}}</td>
+                <td *ngIf="ReditRow!==x">{{x.deliveryMode}}</td>
+                <td *ngIf="ReditRow!==x">{{x.status}}</td>
+                <td *ngIf="ReditRow!==x">{{x.total}}</td>
+
+                <td *ngIf="ReditRow!==x">
+                    <a [hidden]="!ADMIN" *ngIf="RdeleteRow!==x" (click)="Rdeleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a [hidden]="!ADMIN" *ngIf="RdeleteRow===x" (click)="Rconfirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
+                    <span [hidden]="!ADMIN"> | </span>
+                    <a [hidden]="!ADMIN" *ngIf="RdeleteRow!==x" (click)="Reditclick(x)" class="btn-link pointer">Edit</a>
+                    <a [hidden]="!ADMIN" *ngIf="RdeleteRow===x" (click)="Rcancelclick()" class="btn-link pointer">Cancel</a>
+                    <span [hidden]="!ADMIN"> | </span>
+                    <a *ngIf="SelRID!==x.id" (click)="SelectDetail(x.id)" class="btn-link pointer">Details</a>
+                    <a *ngIf="SelRID===x.id" style="cursor: default; color:black;" class="btn-link HB"> ---></a>
+                </td>
+                <!-- editing -->
+                <td *ngIf="ReditRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>
+                <td *ngIf="ReditRow===x"><input type="text" [(ngModel)]="X.description"></td>
+                <td *ngIf="ReditRow===x"><input type="text" [(ngModel)]="X.justification"></td>
+                <td *ngIf="ReditRow===x"><input type="text" [(ngModel)]="X.rejectionReason" disabled></td>
+                <td *ngIf="ReditRow===x"><input type="text" [(ngModel)]="X.deliveryMode"></td>
+                <td *ngIf="ReditRow===x"><input type="text" [(ngModel)]="X.status" disabled></td>
+                <td *ngIf="ReditRow===x"><input type="text" [(ngModel)]="X.total" disabled></td>
+
+                <td *ngIf="ReditRow===x"> 
+                    <a (click)="Reditsaveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="Rcancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+            <tr [hidden]="RemptyRowHidden || !ADMIN">
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td> 
+                    <a (click)="Rcreateclick()" class="btn-link pointer">New Request</a>
+                </td>
+            </tr>
+            <tr [hidden]="RcreateRowHidden || !ADMIN">
+                <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="X.id"></td>
+                <td><input type="text" [(ngModel)]="X.description"></td>
+                <td><input type="text" [(ngModel)]="X.justification"></td>
+                <td><input type="text" [(ngModel)]="X.rejectionReason" disabled></td>
+                <td><input type="text" [(ngModel)]="X.deliveryMode"></td>
+                <td><input type="text" [(ngModel)]="X.status" disabled></td>
+                <td><input type="text" [(ngModel)]="X.total" disabled></td>
+                <td> 
+                    <a (click)="Rsaveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="Rcancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- REQUEST LINES -->
+<div class="thirty">
+    <span class="head">Request Contents:</span>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button (click)="IsortOrder('id')" class="btn btn-link HB">ID</button></th>
+            <th><button (click)="IsortOrder('item')" class="btn btn-link HB">Item</button></th>
+            <th><button (click)="IsortOrder('quantity')" class="btn btn-link HB">Quantity</button></th>
+
+            <th [hidden]="!ADMIN" style="cursor:default;" class = "btn HB">Actions</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of Ys | sort:IcolumnIN:IascIN">
+                <td *ngIf="IeditRow!==x">{{x.id}}</td>
+                <td *ngIf="IeditRow!==x">{{x.product.name}}</td>
+                <td *ngIf="IeditRow!==x">{{x.quantity}}</td>
+
+                <td *ngIf="IeditRow!==x">
+                    <a [hidden]="!ADMIN" *ngIf="IdeleteRow!==x" (click)="Ideleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a [hidden]="!ADMIN" *ngIf="IdeleteRow===x" (click)="Iconfirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
+                    <span [hidden]="!ADMIN"> | </span>
+                    <a [hidden]="!ADMIN" *ngIf="IdeleteRow!==x" (click)="Ieditclick(x)" class="btn-link pointer">Edit</a>
+                    <a [hidden]="!ADMIN" *ngIf="IdeleteRow===x" (click)="Icancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+                <!-- editing -->
+                <td *ngIf="IeditRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="Y.id"></td>
+
+                <td *ngIf="IeditRow===x">
+                    <select [(ngModel)]="Y.productID">
+                        <option *ngFor="let i of Is" value={{i.id}}>{{i.name}}</option>
+                    </select>
+                </td>
+                
+                <td *ngIf="IeditRow===x"><input type="number" [(ngModel)]="Y.quantity"></td>
+
+                <td *ngIf="IeditRow===x"> 
+                    <a (click)="Ieditsaveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="Icancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+            <tr [hidden]="IemptyRowHidden || !ADMIN || SelRID===0">
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td><span>---</span></td>
+                <td> 
+                    <a (click)="Icreateclick(SelRID)" class="btn-link pointer">Add Item</a>
+                </td>
+            </tr>
+            <tr [hidden]="IcreateRowHidden || !ADMIN">
+                <td><input style="width:4ch" type="text" value=0 disabled [(ngModel)]="Y.id"></td>
+
+                <td>
+                    <select [(ngModel)]="Y.productID">
+                        <option *ngFor="let i of Is" value={{i.id}}>{{i.name}}</option>
+                    </select>
+                </td>
+
+                <td><input type="text" [(ngModel)]="Y.quantity"></td>
+                <td> 
+                    <a (click)="Isaveclick()" class="btn-link pointer">Save</a>
+                    <span> | </span>
+                    <a (click)="Icancelclick()" class="btn-link pointer">Cancel</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,49 @@
+<app-menu></app-menu>
+<div>
+    <a routerLink="/products" class="btn btn-link">Back To List</a>
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default" class="btn HB">ID</button></th>
+            <th><button style="cursor:default" class="btn HB">Part Number</button></th>
+            <th><button style="cursor:default" class="btn HB">Name</button></th>
+            <th><button style="cursor:default" class="btn HB">Price</button></th>
+            <th><button style="cursor:default" class="btn HB">PhotoPath</button></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{X.id}}</td>
+                <td>{{X.partNbr}}</td>
+                <td>{{X.name}}</td>
+                <td>{{X.price}} {{X.unit}}</td>
+                <td>{{X.photoPath}}</td>
+        </tbody>
+    </table>
+</div>
+<span class="head">Product Vendor:</span>
+<div *ngIf="VID!==0">
+    <table class="table table-sm table-striped">
+        <thead>
+            <th><button style="cursor:default" class="btn HB">ID</button></th>
+            <th><button style="cursor:default" class="btn HB">Code</button></th>
+            <th><button style="cursor:default" class="btn HB">Name</button></th>
+            <th><button style="cursor:default" class="btn HB">Address</button></th>
+            <th><button style="cursor:default" class="btn HB">City</button></th>
+            <th><button style="cursor:default" class="btn HB">State</button></th>
+            <th><button style="cursor:default" class="btn HB">Zip</button></th>
+            <th><button style="cursor:default" class="btn HB">Phone</button></th>
+            <th><button style="cursor:default" class="btn HB">Email</button></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{Z.id}}</td>
+                <td>{{Z.code}}</td>
+                <td>{{Z.name}}</td>
+                <td>{{Z.address}}</td>
+                <td>{{Z.city}}</td>
+                <td>{{Z.state}}</td>
+                <td>{{Z.zip}}</td>
+                <td>{{Z.phone}}</td>
+                <td>{{Z.email}}</td>
+        </tbody>
+    </table>
+</div>

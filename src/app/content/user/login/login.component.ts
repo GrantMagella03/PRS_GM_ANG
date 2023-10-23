@@ -11,6 +11,7 @@ import { User } from '../user.class';
 export class LoginComponent {
   un:string="";
   pw:string="";
+  inc:boolean=false
   constructor(
     public SSVC:systemService,
     private route: ActivatedRoute,
@@ -31,10 +32,12 @@ export class LoginComponent {
         }else{
           this.SSVC.REVIEWER=false;
         }
+        this.inc=false;
         this.router.navigateByUrl(`/home`)
       },
       error: (err)=>{
         console.error(err);
+        this.inc=true;
       }
     });
     }

@@ -12,7 +12,7 @@
             <th><button (click)="sortOrder('zip')" class="btn btn-link HB">Zip</button></th>
             <th><button (click)="sortOrder('phone')" class="btn btn-link HB">Phone</button></th>
             <th><button (click)="sortOrder('email')" class="btn btn-link HB">Email</button></th>
-            <th style="cursor:default;" class = "btn HB" [hidden]="!LADMIN">Actions</th>
+            <th style="cursor:default;" class = "btn HB">Actions</th>
         </thead>
         <tbody>
             <tr *ngFor="let x of Xs | searchVendor:searchIN | sort:columnIN:ascIN">
@@ -25,13 +25,14 @@
                 <td *ngIf="editRow!==x">{{x.zip}}</td>
                 <td *ngIf="editRow!==x">{{x.phone}}</td>
                 <td *ngIf="editRow!==x">{{x.email}}</td>
-                <td *ngIf="editRow!==x" [hidden]="!LADMIN">
-                    <a hidden routerLink="details/{{x.id}}">Details</a>
-                    <a *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
-                    <a *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
-                    <span> | </span>
-                    <a *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
-                    <a *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                <td *ngIf="editRow!==x">
+                    <a [hidden]="!LADMIN" *ngIf="deleteRow!==x" (click)="deleteclick(x)" class="btn-link pointer">Delete</a>
+                    <a [hidden]="!LADMIN" *ngIf="deleteRow===x" (click)="confirmdeleteclick()" style="color:red" class="btn-link pointer">Confirm Delete</a>
+                    <span [hidden]="!LADMIN"> | </span>
+                    <a [hidden]="!LADMIN" *ngIf="deleteRow!==x" (click)="editclick(x)" class="btn-link pointer">Edit</a>
+                    <a [hidden]="!LADMIN" *ngIf="deleteRow===x" (click)="cancelclick()" class="btn-link pointer">Cancel</a>
+                    <span [hidden]="!LADMIN"> | </span>
+                    <a routerLink="details/{{x.id}}">Details</a>
                 </td>
                 <!---->
                 <td *ngIf="editRow===x"><input style="width:4ch" type="text" disabled [(ngModel)]="X.id"></td>
